@@ -27,7 +27,8 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     mapping(uint256 => Restaurant) private restaurants;
-
+    
+    // Function to mint nft
     function safeMint(string memory uri, string memory _name, string memory _description, uint256 price)
         public
         payable
@@ -42,7 +43,7 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return tokenId;
     }
 
-
+    // Function to add restraurant
     function addRestaurantCoupon(uint256 tokenId, string memory _name, string memory _description, uint256 price) private {
         require(price > 0, "Price must be at least 1 wei");
         restaurants[tokenId] = Restaurant(
@@ -57,7 +58,8 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
         _transfer(msg.sender, address(this), tokenId);
     }
-
+    
+    // Function to buy coupon
     function buyCoupon(uint256 tokenId) public payable {
         uint256 price = restaurants[tokenId].price;
         address seller = restaurants[tokenId].seller;
@@ -72,7 +74,8 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
         payable(seller).transfer(msg.value);
     }
-
+    
+    // Function to sell coupon
     function sellCoupon(uint256 tokenId) public payable {
         require(
             restaurants[tokenId].owner == msg.sender,
@@ -84,15 +87,18 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
         _transfer(msg.sender, address(this), tokenId);
     }
-
+    
+    // Function to get coupon
     function getCoupons(uint256 tokenId) public view returns (Restaurant memory) {
         return restaurants[tokenId];
     }
-
+    
+    // Function to get coupon lenght
     function getCouponsLength() public view returns (uint256) {
         return _tokenIdCounter.current();
     }
-
+    
+    // Function to get owner
     function getOwners() public view returns (uint256) {
         return owners;
     }
@@ -111,7 +117,8 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     {
         super._burn(tokenId);
     }
-
+    
+    // Function to get token URI
     function tokenURI(uint256 tokenId)
         public
         view
