@@ -110,6 +110,7 @@ contract RestaurantNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
             0,
             0
         );
+        owners++;
         restaurantAdmins[id][msg.sender] = true;
         restaurantExists[id] = true;
     }
